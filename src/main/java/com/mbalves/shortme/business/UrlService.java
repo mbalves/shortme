@@ -1,5 +1,6 @@
 package com.mbalves.shortme.business;
 
+import com.mbalves.shortme.domain.Statistics;
 import com.mbalves.shortme.domain.Url;
 import com.mbalves.shortme.domain.exceptions.IdNotFoundException;
 import com.mbalves.shortme.repository.UrlRepository;
@@ -33,7 +34,7 @@ public class UrlService {
     public String getFullUrl(String _id) {
         logger.info("Searching key: " + _id);
         Url pair = mongoRepository.findBy_id(_id);
-        if(pair == null) throw new IdNotFoundException("Shorter URL not found!", _id);
+        if(pair == null) return null;
         return pair.getFullUrl();
     }
 
@@ -55,5 +56,11 @@ public class UrlService {
     private String getBaseUrl(String requestUrl) {
         int index = requestUrl.lastIndexOf("/api/");
         return requestUrl.substring(0, index + 1);
+    }
+
+    public Statistics getStatistics() {
+        Statistics stats = new Statistics();
+        stats.setQuantity(mongoRepository.count());
+        return stats;
     }
 }

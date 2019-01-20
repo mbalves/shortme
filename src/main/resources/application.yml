@@ -1,6 +1,6 @@
 server:
-  port: 8080
+  port: ${PORT:80}
 spring:
   data:
     mongodb:
-      uri: "mongodb://localhost:27017/shortme"
+      uri: ${MONGO_URI:mongodb://localhost:27017/shortme}

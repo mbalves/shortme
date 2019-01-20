@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SHORT.ME</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container">
+    <BR/><BR/><BR/>
+    <h1 class="text-center">SHORT.ME</h1>
+    <div class="card">
+        <div class="card-header">Request failed! Something wrong was happened!</div>
+        <div class="card-body">
+            <BR/><BR/><BR/><BR/>
+            <div class="result text-center">
+                <h3>This URL is invalid: </h3>
+                <a class="btn btn-success" href="/">Back to Home</a>
+            </div>
+            <BR/><BR/><BR/><BR/>
+        </div>
+    </div>
+    <p class="text-right font-italic">By Marcelo B. Alves</p>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $('h3')[0].textContent += ' ' + location.search.substring(1);
+</script>
+</body>
+</html>

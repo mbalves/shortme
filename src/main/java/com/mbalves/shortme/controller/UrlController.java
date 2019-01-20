@@ -1,6 +1,7 @@
 package com.mbalves.shortme.controller;
 
 import com.mbalves.shortme.business.UrlService;
+import com.mbalves.shortme.domain.Statistics;
 import com.mbalves.shortme.domain.exceptions.BadURLException;
 import com.mbalves.shortme.domain.Url;
 import org.slf4j.Logger;
@@ -20,6 +21,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 public class UrlController {
     Logger logger = LoggerFactory.getLogger(UrlController.class);
 
+    private final String NOT_FOUND = "/resources/error.html";
+
     private UrlService urlService;
 
     @Autowired
@@ -34,10 +37,26 @@ public class UrlController {
         return urlService.getShortUrl(validateUrl(urlPair.getFullUrl()), request.getRequestURL().toString());
     }
 
+    @GetMapping(value = "/{id}")
+    public RedirectView redirectUrl(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) {
+        String redirectUrlString = urlService.getFullUrl(id);
+        logger.info("Original URL: " + redirectUrlString);
+        if (redirectUrlString==null) {
+            redirectUrlString = NOT_FOUND + "?" + id;
+        }
+        return new RedirectView(redirectUrlString);
+    }
+
     @ResponseBody
     @GetMapping(value = "/api/shorturls")
     public List<Url> getAll() {
         return urlService.getAll();
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/api/statistics")
+    public Statistics getStatistics() {
+        return urlService.getStatistics();
     }
 
     @RequestMapping(value = "/api/shorturls/{id}", method=RequestMethod.DELETE)
@@ -45,12 +64,6 @@ public class UrlController {
         urlService.delete(id);
     }
 
-    @GetMapping(value = "/{id}")
-    public RedirectView redirectUrl(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) {
-        String redirectUrlString = urlService.getFullUrl(id);
-        logger.info("Original URL: " + redirectUrlString);
-        return new RedirectView(redirectUrlString);
-    }
 
     private String validateUrl(String fullUrl) {
         try{

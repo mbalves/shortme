@@ -3,7 +3,7 @@ $(document).ready(function() {
 	$("button").click(function() {
 		$.ajax({
 			type : 'POST',
-			url : 'http://localhost:8080/api/shorturls',
+			url : '/api/shorturls',
 			data : JSON.stringify({
 				"fullUrl" : $("#urlinput").val()
 			}),
