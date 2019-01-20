@@ -57,8 +57,8 @@ gradle run
 
 <br />
 By default the Server will run on localhost:8080 <br/>
-To test, access the home page at http?//localhost:8080 OR <br />
-send POST Request to localhost:8080/api/shorturls with a body of type application/json with body
+To test, access the home page at http://localhost:8080 OR <br />
+send POST Request to http://localhost:8080/api/shorturls with a body of type application/json with body
 
 ```
 {
