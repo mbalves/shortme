@@ -1,17 +1,20 @@
 package com.mbalves.shortme.business;
 
+import com.mbalves.shortme.domain.Statistics;
 import com.mbalves.shortme.domain.Url;
-import com.mbalves.shortme.domain.exceptions.IdNotFoundException;
 import com.mbalves.shortme.repository.UrlRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -52,11 +55,13 @@ public class UrlServiceTest {
     }
 
     @Test
-    public void getAll_OK() {
-        List<Url> urlObjects = Collections.singletonList(new Url(SOME_ID,SOME_URL,SOME_LINK));
-        when(repository.findAll()).thenReturn(urlObjects);
+    public void findAll_OK() {
+        Pageable pageable = PageRequest.of(0,10);
+        Page<Url> pageObjects = new PageImpl<>(Collections.singletonList(new Url(SOME_ID,SOME_URL,SOME_LINK))
+                                        ,pageable,1);
+        when(repository.findAll(any(Pageable.class))).thenReturn(pageObjects);
 
-        assertThat(urlService.getAll()).isEqualTo(urlObjects);
+        assertThat(urlService.findAll(0)).isEqualTo(pageObjects);
     }
 
     @Test
@@ -64,12 +69,28 @@ public class UrlServiceTest {
         urlService.delete(SOME_ID);
     }
 
+    @Test
+    public void statistics_OK() {
+        Date now = new Date();
+        Url urlObject = new Url(SOME_ID,SOME_URL,SOME_LINK);
+        urlObject.setCreationDate(now);
+        Statistics stats = new Statistics(now, now,1L,1L);
+        when(repository.count()).thenReturn(1L);
+        when(repository.findFirstByOrderByCreationDateAsc()).thenReturn(urlObject);
+        when(repository.findFirstByOrderByCreationDateDesc()).thenReturn(urlObject);
+        when(repository.findAllAfterCreationDate(any(Date.class))).thenReturn(Collections.singletonList(new Url()));
+
+        assertThat(urlService.getStatistics()).isNotNull();
+        assertThat(urlService.getStatistics().getStartDate()).isEqualTo(stats.getStartDate());
+        assertThat(urlService.getStatistics().getLastChange()).isEqualTo(stats.getLastChange());
+        assertThat(urlService.getStatistics().getQuantity()).isEqualTo(stats.getQuantity());
+        assertThat(urlService.getStatistics().getQuantityLastDay()).isEqualTo(stats.getQuantityLastDay());
+    }
 
     @Test
     public void getFullUrl_NOT_FOUND() {
-        Url urlObject = null;
-        when(repository.findBy_id(anyString())).thenReturn(urlObject);
+        when(repository.findBy_id(anyString())).thenReturn(null);
 
-        assertThatThrownBy(() -> urlService.getFullUrl(SOME_ID)).isInstanceOf(IdNotFoundException.class);
+        assertThat(urlService.getFullUrl(SOME_ID)).isEqualTo(null);
     }
 }

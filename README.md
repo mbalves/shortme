@@ -33,6 +33,20 @@ Endpoint responsible for: <br/>
 1. Search the URLid in MongoDB <br />
 2. Remove it <br />
 
+<h3>GET /api/statistics/{id}</h3>
+<b>API Statistics</b> <br />
+Endpoint responsible for: <br/>
+1. Extract some API statistics like: <br />
+   - "startDate" <br />
+   - "lastChange" <br />
+   - "quantity" <br />
+   - "quantityLastDay" <br />
+
+<h3>GET /actuator/</h3>
+<b>Health Check Spring</b> <br />
+Endpoint responsible for: <br/>
+1. Show application status <br />
+2. Show application info <br />
 
 <br /> <br />
 <h2>To run:</h2>
@@ -56,12 +70,15 @@ gradle run
 ```
 
 <br />
-By default the Server will run on localhost:8080 <br/>
-To test, access the home page at http://localhost:8080 OR <br />
-send POST Request to http://localhost:8080/api/shorturls with a body of type application/json with body
+By default the Server will run on localhost:80 <br/>
+To test, access the home page at <a href='http://localhost'>http://localhost</a> OR <br />
+send POST Request to http://localhost/api/shorturls with a body of type application/json with body
 
 ```
 {
   'fullUrl' : '<INSERT URL>'
 }
 ```
+
+
+Please, evaluate a preview version running on Heroku: <a href='https://shrtme.herokuapp.com/'>https://shrtme.herokuapp.com/</a>

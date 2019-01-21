@@ -2,18 +2,18 @@ package com.mbalves.shortme.controller;
 
 import com.mbalves.shortme.business.UrlService;
 import com.mbalves.shortme.domain.Statistics;
-import com.mbalves.shortme.domain.exceptions.BadURLException;
 import com.mbalves.shortme.domain.Url;
+import com.mbalves.shortme.domain.exceptions.BadURLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URL;
-import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
@@ -49,8 +49,9 @@ public class UrlController {
 
     @ResponseBody
     @GetMapping(value = "/api/shorturls")
-    public List<Url> getAll() {
-        return urlService.getAll();
+    public Page<Url> findAll(@RequestParam(required = false) Integer page) {
+        page = (page==null) ? 0 : page - 1;
+        return urlService.findAll(page);
     }
 
     @ResponseBody
@@ -63,7 +64,6 @@ public class UrlController {
     public void delete(@PathVariable String id) {
         urlService.delete(id);
     }
-
 
     private String validateUrl(String fullUrl) {
         try{

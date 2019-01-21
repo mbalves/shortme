@@ -2,13 +2,16 @@ package com.mbalves.shortme.business;
 
 import com.mbalves.shortme.domain.Statistics;
 import com.mbalves.shortme.domain.Url;
-import com.mbalves.shortme.domain.exceptions.IdNotFoundException;
 import com.mbalves.shortme.repository.UrlRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @Service
@@ -38,8 +41,8 @@ public class UrlService {
         return pair.getFullUrl();
     }
 
-    public List<Url> getAll(){
-        return mongoRepository.findAll();
+    public Page<Url> findAll(int page) {
+        return mongoRepository.findAll(PageRequest.of(page, 10));
     }
 
     public void delete(String _id){
@@ -61,6 +64,25 @@ public class UrlService {
     public Statistics getStatistics() {
         Statistics stats = new Statistics();
         stats.setQuantity(mongoRepository.count());
+
+
+        Url first = mongoRepository.findFirstByOrderByCreationDateAsc();
+        stats.setStartDate(first.getCreationDate());
+
+        Url last = mongoRepository.findFirstByOrderByCreationDateDesc();
+        stats.setLastChange(last.getCreationDate());
+
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTime(last.getCreationDate());
+
+        calendar.set(Calendar.HOUR,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,0);
+
+        List<Url> lastList = mongoRepository.findAllAfterCreationDate(calendar.getTime());
+        stats.setQuantityLastDay((long) lastList.size());
         return stats;
     }
+
 }

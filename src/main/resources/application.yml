@@ -1,3 +1,9 @@
+info:
+  app:
+    name: Short Me Application
+    description: An URL shortener API built with Spring Boot, Thymeleaf and MongoDB
+    source: https://github.com/mbalves/shortme
+    version: 1.0.0
 server:
   port: ${PORT:80}
 spring:

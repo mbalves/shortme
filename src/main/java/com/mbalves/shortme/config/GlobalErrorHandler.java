@@ -2,7 +2,6 @@ package com.mbalves.shortme.config;
 
 import com.mbalves.shortme.domain.exceptions.BadURLException;
 import com.mbalves.shortme.domain.ErrorDetails;
-import com.mbalves.shortme.domain.exceptions.IdNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,11 +19,6 @@ public class GlobalErrorHandler extends ResponseEntityExceptionHandler {
     private ResponseEntity<ErrorDetails> buildResponse(String message, String description, HttpStatus status){
         ErrorDetails errorDetails = new ErrorDetails(new Date(),message, description);
         return new ResponseEntity<>(errorDetails, status);
-    }
-
-    @ExceptionHandler(IdNotFoundException.class)
-    public final ResponseEntity<ErrorDetails> handleUrlNotFoundException(IdNotFoundException ex, WebRequest request) {
-        return buildResponse(ex.getMessage(), ex.getId(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BadURLException.class)

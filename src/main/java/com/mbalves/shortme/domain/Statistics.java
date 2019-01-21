@@ -9,6 +9,15 @@ public class Statistics {
     private Long quantity;
     private Long quantityLastDay;
 
+    public Statistics(){}
+
+    public Statistics(Date startDate, Date lastChange, Long quantity, Long quantityLastDay) {
+        this.startDate = startDate;
+        this.lastChange = lastChange;
+        this.quantity = quantity;
+        this.quantityLastDay = quantityLastDay;
+    }
+
     public Date getStartDate() {
         return startDate;
     }
