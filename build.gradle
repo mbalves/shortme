@@ -38,11 +38,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	testImplementation 'io.rest-assured:rest-assured'
-	testImplementation 'org.powermock:powermock-core'
-	testImplementation 'org.powermock:powermock-module-junit'
-	testImplementation 'org.powermock:powermock-api-mockito'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+}
+
+springBoot {
+	buildInfo()
 }
