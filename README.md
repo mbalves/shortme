@@ -26,6 +26,13 @@ Endpoint responsible for: <br/>
 <b>Lists all URLs</b> <br />
 Endpoint responsible for: <br/>
 1. Return all stored URLs from MongoDB <br />
+2. Use pagination to retrieve 20 url per page <br/>
+
+<h3>GET /api/shorturls/{id}</h3>
+<b>Lists URLs detail</b> <br />
+Endpoint responsible for: <br/>
+1. Return URL data <br />
+
 
 <h3>DELETE /api/shorturls/{id}</h3>
 <b>Delete on URL</b> <br />
@@ -33,14 +40,23 @@ Endpoint responsible for: <br/>
 1. Search the URLid in MongoDB <br />
 2. Remove it <br />
 
-<h3>GET /api/statistics/</h3>
-<b>API Statistics</b> <br />
+<h3>GET /api/data/</h3>
+<b>API Usage</b> <br />
 Endpoint responsible for: <br/>
-1. Extract some API statistics like: <br />
+1. Extract some API usage like: <br />
    - "startDate" <br />
    - "lastChange" <br />
    - "quantity" <br />
    - "quantityLastDay" <br />
+
+<h3>GET /api/data/{id}</h3>
+<b>URL Usage</b> <br />
+Endpoint responsible for: <br/>
+1. Show for each URL link usage: <br />
+   - "User IP" <br />
+   - "User City" <br />
+   - "User Country" <br />
+   - "Timestamp" <br />
 
 <h3>GET /actuator/</h3>
 <b>Health Check Spring</b> <br />

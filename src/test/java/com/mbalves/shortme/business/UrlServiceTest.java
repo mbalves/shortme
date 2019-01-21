@@ -2,6 +2,7 @@ package com.mbalves.shortme.business;
 
 import com.mbalves.shortme.domain.Statistics;
 import com.mbalves.shortme.domain.Url;
+import com.mbalves.shortme.repository.UrlDataRepository;
 import com.mbalves.shortme.repository.UrlRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +24,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class UrlServiceTest {
 
     private static final String SOME_ID = "aaaaBB";
+    private static final String SOME_IP = "162.168.0.1";
     private static final String SOME_URL = "http://someplace.com/stuffs/cool.html";
     private static final String BASE_URL = "http://short.me/api/shorturls";
     private static final String SOME_LINK = "http://short.me/aaaBB";
@@ -31,11 +33,14 @@ public class UrlServiceTest {
 
     @Mock
     private UrlRepository repository;
+    @Mock
+    private UrlDataRepository dataRepository;
+
 
     @Before
     public void setup(){
         initMocks(this);
-        urlService = new UrlService(repository);
+        urlService = new UrlService(repository,dataRepository);
     }
 
     @Test
@@ -51,7 +56,7 @@ public class UrlServiceTest {
         Url urlObject = new Url(SOME_ID,SOME_URL,SOME_LINK);
         when(repository.findBy_id(anyString())).thenReturn(urlObject);
 
-        assertThat(urlService.getFullUrl(SOME_ID)).isEqualTo(SOME_URL);
+        assertThat(urlService.getFullUrl(SOME_ID,SOME_IP)).isEqualTo(SOME_URL);
     }
 
     @Test
@@ -91,6 +96,6 @@ public class UrlServiceTest {
     public void getFullUrl_NOT_FOUND() {
         when(repository.findBy_id(anyString())).thenReturn(null);
 
-        assertThat(urlService.getFullUrl(SOME_ID)).isEqualTo(null);
+        assertThat(urlService.getFullUrl(SOME_ID,SOME_IP)).isEqualTo(null);
     }
 }

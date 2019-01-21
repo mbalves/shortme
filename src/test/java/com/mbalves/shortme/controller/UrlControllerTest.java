@@ -97,7 +97,7 @@ public class UrlControllerTest {
         given(repository.findFirstByOrderByCreationDateDesc()).willReturn(urlObject);
         given(repository.findAllAfterCreationDate(any(Date.class))).willReturn(Collections.singletonList(new Url()));
 
-        mockMvc.perform(get("/api/statistics"))
+        mockMvc.perform(get("/api/data"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.quantity").value(1));
     }

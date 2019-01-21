@@ -11,6 +11,7 @@ public class Url {
     private String fullUrl;
     private String shortUrl;
     private Date creationDate;
+    private Long usage;
 
     public Url() {};
 
@@ -51,6 +52,14 @@ public class Url {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Long getUsage() {
+        return usage;
+    }
+
+    public void setUsage(Long usage) {
+        this.usage = usage;
     }
 
     @Override
