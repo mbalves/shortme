@@ -33,7 +33,7 @@ Endpoint responsible for: <br/>
 1. Search the URLid in MongoDB <br />
 2. Remove it <br />
 
-<h3>GET /api/statistics/{id}</h3>
+<h3>GET /api/statistics/</h3>
 <b>API Statistics</b> <br />
 Endpoint responsible for: <br/>
 1. Extract some API statistics like: <br />
